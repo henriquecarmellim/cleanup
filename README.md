@@ -1,27 +1,47 @@
 # Windows Cleanup Utility
 
-Este script batch oferece uma maneira conveniente de realizar várias tarefas de limpeza e otimização no Windows. Ele inclui um menu que permite ao usuário escolher entre várias opções para melhorar o desempenho do PC, limpar arquivos desnecessários e reparar arquivos do sistema.
+O **Windows Cleanup Utility** é um script Batch que facilita a manutenção e a otimização do seu sistema Windows. Ele fornece uma interface de menu simples para executar várias tarefas de limpeza e manutenção.
 
 ## Funcionalidades
 
-1. **Clean Temp folders**: Limpa os arquivos temporários nas pastas `%temp%`, `C:\Windows\Temp` e `%userprofile%\AppData\Local\Temp`.
-2. **Clean Prefetch**: Limpa os arquivos na pasta `C:\Windows\Prefetch`.
-3. **Clean Recycle Bin**: Esvazia a Lixeira.
-4. **Optimize System**: Otimiza o sistema (comandos específicos podem ser adicionados conforme necessário).
-5. **Repair System Files (SFC)**: Executa o comando `sfc /scannow` para verificar e reparar arquivos de sistema corrompidos.
-6. **Check and Repair Disk Errors (CHKDSK)**: Executa o comando `chkdsk /f /r` para verificar e reparar erros no disco.
-7. **Disk Cleanup**: Executa a Limpeza de Disco utilizando `cleanmgr /sageset:1` e `cleanmgr /sagerun:1`.
-8. **Defragment Disk**: Desfragmenta o disco utilizando `defrag C: /O`.
-9. **Run All**: Executa todas as tarefas acima em sequência.
+O script inclui as seguintes opções:
 
-## Uso
+1. **Limpar pastas Temp**: Remove arquivos temporários das pastas `%temp%` e `C:\Windows\Temp`.
+2. **Limpar Prefetch**: Remove arquivos da pasta `C:\Windows\Prefetch`.
+3. **Limpar Lixeira**: Limpa a Lixeira do Windows.
+4. **Otimizar Sistema**: Limpa o cache DNS, ajusta o gerenciamento de energia e desativa serviços desnecessários.
+5. **Reparar Arquivos do Sistema (SFC)**: Executa `sfc /scannow` para verificar e reparar arquivos do sistema corrompidos.
+6. **Verificar e Reparar Erros no Disco (CHKDSK)**: Executa `chkdsk C: /f /r` para verificar e reparar erros no disco.
+7. **Limpeza de Disco**: Executa o utilitário de limpeza de disco do Windows.
+8. **Desfragmentar Disco**: Executa a desfragmentação do disco.
+9. **Executar Todos**: Executa todas as tarefas de limpeza e manutenção.
 
-1. **Baixar o script**:
-   - Salve o script em um arquivo chamado `cleanup.bat`.
+## Instruções de Uso
 
-2. **Executar o script**:
-   - Clique com o botão direito do mouse no arquivo `cleanup.bat` e selecione "Executar como administrador".
+1. **Executar o Script**:
+   - Clique duas vezes no arquivo `.bat` para iniciar o script.
+   - Se não estiver executando como administrador, será solicitada permissão para elevar os privilégios.
 
-3. **Selecione uma opção**:
-   - Escolha a opção desejada no menu digitando o número correspondente e pressionando `Enter`.
+2. **Navegar pelo Menu**:
+   - O menu exibido apresenta opções numeradas.
+   - Digite o número da opção desejada e pressione `Enter`.
 
+3. **Baixar o Executável Necessário**:
+   - O script verifica e baixa automaticamente o arquivo `menumode.exe` se ele não estiver presente no diretório do script.
+
+## Requisitos
+
+- **Sistema Operacional**: Windows
+- **Permissões**: O script deve ser executado com privilégios administrativos para realizar a limpeza e manutenção do sistema.
+
+## Observações
+
+- Certifique-se de salvar seu trabalho e fechar programas importantes antes de executar o script, especialmente se você optar por executar todas as tarefas.
+
+## Suporte
+
+Para quaisquer dúvidas ou problemas com o script, por favor, entre em contato com o desenvolvedor ou consulte a documentação adicional se disponível.
+
+---
+
+Este README fornece uma visão geral clara e concisa do que o script faz e como usá-lo. Se precisar de mais informações ou personalizações, é só avisar!
