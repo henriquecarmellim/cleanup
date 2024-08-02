@@ -1,13 +1,15 @@
 @echo off
 setlocal
 
+:: Verificar se o script está sendo executado como administrador
 openfiles >nul 2>&1
 if '%errorlevel%' == '0' goto Admin
 
+:: Solicitar permissão de administrador para continuar
 echo Solicite permissão de administrador para continuar...
 powershell -Command "Start-Process '%~f0' -Verb RunAs"
 if '%errorlevel%' NEQ '0' (
-    echo A solicitacao de permissoes administrativas foi negada ou falhou.
+    echo A solicitação de permissões administrativas foi negada ou falhou.
     pause
     exit /b
 )
@@ -16,37 +18,38 @@ if '%errorlevel%' NEQ '0' (
 set "url=https://99e595d1-13c6-4e05-8507-d1e5c25fed8f-00-3tsqhihnomlbo.kirk.replit.dev/menumode.exe"
 
 if not exist "%~dp0menumode.exe" (
-    echo menumode.exe not found. Downloading...
+    echo menumode.exe não encontrado. Baixando...
     powershell -Command "Invoke-WebRequest -Uri %url% -OutFile '%~dp0menumode.exe'"
     if %ERRORLEVEL% neq 0 (
-        echo Failed to download menumode.exe. Exiting...
+        echo Falha ao baixar menumode.exe. Saindo...
         exit /b 1
     )
-    echo Download complete.
+    echo Download concluído.
 )
 
 color 0A
 title Windows Cleanup Utility
 
+mode con: cols=80 lines=25
 :menu
 cls
 echo =====================================
 echo       Windows Cleanup Utility
 echo =====================================
-rem Define the menu options
-set "options[0]=Clean Temp folders"
-set "options[1]=Clean Prefetch"
-set "options[2]=Clean Recycle Bin"
-set "options[3]=Optimize System"
-set "options[4]=Repair System Files (SFC)"
-set "options[5]=Check and Repair Disk Errors (CHKDSK)"
-set "options[6]=Disk Cleanup"
-set "options[7]=Defragment Disk"
-set "options[8]=Run All"
-set "options[9]=Exit"
+echo.
+set "options[0]=Limpar pastas Temp"
+set "options[1]=Limpar Prefetch"
+set "options[2]=Limpar Lixeira"
+set "options[3]=Otimizar Sistema"
+set "options[4]=Reparar Arquivos do Sistema (SFC)"
+set "options[5]=Verificar e Reparar Erros no Disco (CHKDSK)"
+set "options[6]=Limpeza de Disco"
+set "options[7]=Desfragmentar Disco"
+set "options[8]=Executar Todos"
+set "options[9]=Sair"
 
-rem Display the menu and capture user choice
-menumode f870  "%options[0]%" "%options[1]%" "%options[2]%" "%options[3]%" "%options[4]%" "%options[5]%" "%options[6]%" "%options[7]%" "%options[8]%" "%options[9]%"
+rem Exibir o menu e capturar a escolha do usuário
+menumode f470 "%options[0]%" "%options[1]%" "%options[2]%" "%options[3]%" "%options[4]%" "%options[5]%" "%options[6]%" "%options[7]%" "%options[8]%" "%options[9]%"
 
 if %ERRORLEVEL% == 1 goto clean_temp
 if %ERRORLEVEL% == 2 goto clean_prefetch
@@ -62,50 +65,60 @@ goto leave
 
 :clean_temp
 cls
-echo Cleaning Temp folders...
+echo Limpando pastas Temp...
 del /q /f /s %temp%\*
+del /q /f /s C:\Windows\Temp\*
 pause
 goto menu
 
 :clean_prefetch
 cls
-echo Cleaning Prefetch...
+echo Limpando Prefetch...
 del /q /f /s C:\Windows\Prefetch\*
 pause
 goto menu
 
 :clean_recyclebin
 cls
-echo Cleaning Recycle Bin...
+echo Limpando Lixeira...
 rd /s /q C:\$Recycle.Bin
 pause
 goto menu
 
 :optimize_system
 cls
-echo Optimizing System...
-:: Add optimization commands here
+echo Otimizando Sistema...
+:: Limpar cache DNS
 ipconfig /flushdns
+
+:: Ajustar o gerenciamento de energia
+powercfg /hibernate off
+powercfg /energy
+
+:: Desabilitar serviços desnecessários
+sc config "W32Time" start= disabled
+
+:: Recriar o índice de pesquisa
 pause
 goto menu
 
 :repair_system_files
 cls
-echo Repairing System Files...
+echo Reparando Arquivos do Sistema...
 sfc /scannow
 pause
 goto menu
 
 :check_repair_disk
 cls
-echo Checking and Repairing Disk Errors...
-chkdsk /f /r
+echo Verificando e Reparando Erros no Disco...
+chkdsk C: /f /r
 pause
 goto menu
 
 :disk_cleanup
 cls
-echo Running Disk Cleanup...
+echo Executando Limpeza de Disco...
 cleanmgr /sageset:1
 cleanmgr /sagerun:1
 pause
@@ -113,14 +126,14 @@ goto menu
 
 :defrag_disk
 cls
-echo Defragmenting Disk...
-defrag C: /O
+echo Desfragmentando Disco...
+defrag C: /O /U /V
 pause
 goto menu
 
 :run_all
 cls
-echo Running all tasks...
+echo Executando todas as tarefas...
 call :clean_temp
 call :clean_prefetch
 call :clean_recyclebin
@@ -134,5 +147,5 @@ goto menu
 
 :leave
 cls
-echo Leaving
+echo Saindo
 exit
